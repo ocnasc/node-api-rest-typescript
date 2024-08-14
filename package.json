@@ -5,8 +5,12 @@
   "author": "Otavio Nascimento",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "start": "ts-node-dev ./src/index.ts"
+  },
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "http-status-code": "^2.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
