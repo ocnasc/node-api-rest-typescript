@@ -1,37 +1,22 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import * as yup from 'yup';
+import { validation } from "../../shared/middleware";
 
-interface ICidade {
-  nome: string;
-  estado: string
+// Interface que define a estrutura do objeto Cidade
+interface ICidade { 
+  nome: string
 }
 
-const bodyValidation: yup.ObjectSchema<ICidade> = yup.object().shape({
-  nome: yup.string().required().min(3),
-  estado: yup.string().required().min(3),
+export const createValidation = validation((getSchema) => ({
 
-});
+  body: getSchema<ICidade>(yup.object().shape({
+    nome: yup.string().required().min(3)  }))
+}));
 
+// Método create (CidadesController.create)
 export const create = async (req: Request<{}, {}, ICidade>, res: Response) => {
-let validatedData: ICidade | undefined = undefined;
-
-  try {
-    validatedData = await bodyValidation.validate(req.body, {abortEarly: false});
-  } catch (error) {
-    const yupError = error as yup.ValidationError;
-    const validationErrors: Record<string,string> = {};
-
-    yupError.inner.forEach(error => {
-      if (error.path === undefined) return;
-      validationErrors[error.path] = error.message;
-    })
-    console.log({statusCode: StatusCodes.BAD_REQUEST,user_request: req.body, errors: validationErrors})
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      errors: validationErrors,
-    })
-  }
-
-  console.log(validatedData);
-  return res.status(StatusCodes.OK).send("tudo certo!");
+  console.log(req.body);
+  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Não implementado');
 };
+ 
